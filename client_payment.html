@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Payment</title>
+    <style>
+    
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            padding: 15px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #08860c;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            padding: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f6f8;
+            font-weight: 600;
+        }
+
+        table td {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Client Payment Details</h1>
+    </div>
+
+    <a href="payments.html" class="back-button">Back to Payment Management</a>
+
+    <div class="table-container">
+        <h2>Client Payment Information</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Client ID</th>
+                    <th>Project ID</th>
+                </tr>
+            </thead>
+            <tbody id="paymentTableBody">
+                <!-- Dynamic rows will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Example data that can be replaced dynamically
+        const payments = [
+            { paymentID: '101', amount: '$1000', date: '2024-01-01', clientID: '1', projectID: '10' },
+            { paymentID: '102', amount: '$2000', date: '2024-02-15', clientID: '2', projectID: '20' },
+            { paymentID: '103', amount: '$1500', date: '2024-03-10', clientID: '3', projectID: '30' }
+        ];
+
+        const tableBody = document.getElementById('paymentTableBody');
+
+        payments.forEach(payment => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${payment.paymentID}</td>
+                <td>${payment.amount}</td>
+                <td>${payment.date}</td>
+                <td>${payment.clientID}</td>
+                <td>${payment.projectID}</td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

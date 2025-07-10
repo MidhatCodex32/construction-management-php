@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Manager Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f9;
+    }
+
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .option-container {
+      display: flex;
+      justify-content: space-evenly;
+      margin: 20px 0;
+    }
+
+    .option-button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .option-button:hover {
+      background-color: #45a049;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    form label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+
+    form input:focus, form textarea:focus, form select:focus {
+      border-color: #4CAF50;
+      background-color: #fff;
+      outline: none;
+    }
+
+    button[type="submit"] {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .view-button {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #2196F3;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .view-button:hover {
+      background-color: #0b7dda;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Supervisor</h1>
+  </div>
+
+  <div class="container">
+    <div class="option-container">
+
+      <button class="option-button" onclick="showSection('updateStatusForm')">Update Project Status</button>
+      <button class="option-button" onclick="showSection('vendorTransactionForm')">Vendor Transactions</button>
+    </div>
+
+    <!-- Add Project Manager Form -->
+    <div id="addManagerForm" class="form-container" style="display: none;"></div>
+
+    <!-- Update Project Status Form -->
+    <div id="updateStatusForm" class="form-container" style="display: none;">
+      <h2>Update Project Status</h2>
+      <form id="statusForm" onsubmit="updateProjectStatus(event)">
+        <label for="status">Status:</label>
+        <select id="status" required>
+          <option value="Start">Start</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <label for="projectDetails">Details:</label>
+        <textarea id="projectDetails" required></textarea>
+        <label for="projectDetails">Team:</label>
+        <textarea id="projectDetails" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Vendor Transaction Form -->
+    <div id="vendorTransactionForm" class="form-container" style="display: none;">
+      <h2>Vendor Transactions</h2>
+      <form id="vendorForm" onsubmit="addVendorTransaction(event)">
+        <label for="vendorName">Vendor Name:</label>
+        <input type="text" id="vendorName" required>
+        <label for="paymentAmount">Payment Amount:</label>
+        <input type="number" id="paymentAmount" required>
+        <label for="paymentDate">Payment Date:</label>
+        <input type="date" id="paymentDate" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- View Buttons -->
+    <button id="viewManagersBtn" class="view-button" style="display: none;" onclick="window.location.href='viewProjectManagers.html'">View Project Managers</button>
+    <button id="viewStatusBtn" class="view-button" style="display: none;" onclick="window.location.href='viewProjectStatus.html'">View Project Status</button>
+    <button id="viewVendorBtn" class="view-button" style="display: none;" onclick="window.location.href='viewVendorTransactions.html'">View Vendor Transactions</button>
+  </div>
+
+  <script>
+    // Store the data arrays
+    let projectManagers = [];
+    let projectStatus = [];
+    let vendorTransactions = [];
+
+    // Show the form based on selection
+    function showSection(formId) {
+      document.getElementById('addManagerForm').style.display = 'none';
+      document.getElementById('updateStatusForm').style.display = 'none';
+      document.getElementById('vendorTransactionForm').style.display = 'none';
+      
+      document.getElementById(formId).style.display = 'block';
+    }
+
+    // Add Project Manager
+    function addProjectManager(event) {
+      event.preventDefault();
+      const manager = {
+        id: document.getElementById('managerID').value,
+        name: document.getElementById('managerName').value,
+        email: document.getElementById('managerEmail').value,
+        contact: document.getElementById('managerContact').value,
+        projects: document.getElementById('assignedProjects').value
+      };
+
+      projectManagers.push(manager);
+      localStorage.setItem('projectManagers', JSON.stringify(projectManagers));
+      alert("Project Manager added successfully!");
+      document.getElementById('viewManagersBtn').style.display = 'block';
+      document.getElementById('managerForm').reset();
+    }
+
+    // Update Project Status
+    function updateProjectStatus(event) {
+      event.preventDefault();
+      const statusUpdate = {
+        status: document.getElementById('status').value,
+        details: document.getElementById('projectDetails').value
+      };
+
+      projectStatus.push(statusUpdate);
+      localStorage.setItem('projectStatus', JSON.stringify(projectStatus));
+      alert("Project Status updated successfully!");
+      document.getElementById('viewStatusBtn').style.display = 'block';
+      document.getElementById('statusForm').reset();
+    }
+
+    // Add Vendor Transaction
+    function addVendorTransaction(event) {
+      event.preventDefault();
+      const transaction = {
+        vendorName: document.getElementById('vendorName').value,
+        paymentAmount: document.getElementById('paymentAmount').value,
+        paymentDate: document.getElementById('paymentDate').value
+      };
+
+      vendorTransactions.push(transaction);
+      localStorage.setItem('vendorTransactions', JSON.stringify(vendorTransactions));
+      alert("Vendor Transaction added successfully!");
+      document.getElementById('viewVendorBtn').style.display = 'block';
+      document.getElementById('vendorForm').reset();
+    }
+  </script>
+</body>
+</html>

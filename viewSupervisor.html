@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Supervisor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f9;
+    }
+
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    table th, table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #2196F3;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #0b7dda;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Project Managers</h1>
+  </div>
+
+  <div class="container">
+    <h2>Project Manager Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Manager ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Assigned Projects</th>
+        </tr>
+      </thead>
+      <tbody id="managerTable"></tbody>
+    </table>
+    <a href="projectmanager.html" class="back-button">Back to Home</a>
+  </div>
+
+  <script>
+    const projectManagers = JSON.parse(localStorage.getItem('projectManagers')) || [];
+
+    function displayManagers() {
+      const tableBody = document.getElementById('managerTable');
+      projectManagers.forEach(manager => {
+        const row = `<tr>
+          <td>${manager.id}</td>
+          <td>${manager.name}</td>
+          <td>${manager.email}</td>
+          <td>${manager.contact}</td>
+          <td>${manager.projects}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    displayManagers();
+  </script>
+</body>
+</html>
